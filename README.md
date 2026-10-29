@@ -3,10 +3,7 @@
 - Oracle Database 26ai with a CDB and PDB created and accessible. Listener needs to be properly configure also
 - installed sh schema as this is what I'm using for tests see https://github.com/oracle-samples/db-sample-schemas.git
 - Ollama installed on a server reachable by the Oracle DB server. I am using qwen2.5-coder:7b
-- Nginx installed on the server hosting Ollama or a reverse proxy server.1.
-- Configure Self-Signed Certificate and Nginx Proxy:Security & Proxy Layer.
-- Generate a self-signed SSL certificate with proper Subject Alternative Names (SAN) so the Oracle Database wallet trusts the host, then route incoming traffic to Ollama's local port.Generate OpenSSL private key and self-signed
-- Create certificate
+- Nginx installed on the server hosting Ollama or a reverse proxy server
 
 # Create OpenSSL configuration with SAN matching your server hostname/IP
 
