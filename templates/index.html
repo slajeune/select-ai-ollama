@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Oracle Search</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #202124;
+            background: #ffffff;
+        }
+
+        header {
+            text-align: center;
+            padding: 65px 20px 25px;
+        }
+
+        h1 {
+            font-size: 44px;
+            font-weight: 500;
+            letter-spacing: -2px;
+            margin: 0;
+        }
+
+        h1 span {
+            color: #c74634;
+        }
+
+        .subtitle {
+            margin-top: 12px;
+            color: #70757a;
+            font-size: 14px;
+        }
+
+        .search-form {
+            display: flex;
+            max-width: 680px;
+            margin: 30px auto 0;
+            padding: 7px 9px 7px 20px;
+            border: 1px solid #dadce0;
+            border-radius: 30px;
+            box-shadow: 0 2px 6px #00000010;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .search-form:hover,
+        .search-form:focus-within {
+            box-shadow: 0 2px 9px #00000025;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 0;
+            padding: 10px 0;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 16px;
+            color: #202124;
+        }
+
+        .search-button {
+            padding: 11px 22px;
+            border: none;
+            border-radius: 24px;
+            background: #c74634;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background: #a93627;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 25px auto 60px;
+            padding: 0 24px;
+        }
+
+        .results-heading {
+            margin: 20px 0;
+            font-size: 14px;
+            color: #5f6368;
+            overflow-wrap: anywhere;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            margin: 20px 0 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #e8eaed;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f8f9fa;
+            color: #3c4043;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        td {
+            color: #202124;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .row-count {
+            font-size: 13px;
+            color: #70757a;
+            margin-top: 12px;
+        }
+
+        .message {
+            margin: 20px 0;
+            padding: 15px 18px;
+            border: 1px solid #f1c7c2;
+            border-radius: 8px;
+            background: #fdf3f2;
+            color: #a52714;
+        }
+
+        .empty-state {
+            padding: 25px 0;
+            color: #5f6368;
+            font-size: 15px;
+        }
+
+        footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            color: #70757a;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 40px 16px 20px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .search-form {
+                margin-top: 24px;
+                padding-left: 14px;
+            }
+
+            .search-input {
+                font-size: 14px;
+            }
+
+            .search-button {
+                padding: 10px 15px;
+            }
+
+            main {
+                padding: 0 14px;
+            }
+
+            th,
+            td {
+                padding: 11px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1><span>Sopht Conseil</span> Search</h1>
+
+        <p class="subtitle">
+            Search your enterprise data using natural language
+        </p>
+
+        <form
+            action="/"
+            method="POST"
+            class="search-form"
+            role="search"
+        >
+            <input
+                type="search"
+                name="q"
+                class="search-input"
+                placeholder="Search customers, orders, products..."
+                value="{{ question }}"
+                maxlength="500"
+                required
+                autofocus
+                aria-label="Search Oracle data"
+            >
+
+            <button type="submit" class="search-button">
+                Search
+            </button>
+        </form>
+    </header>
+
+    <main>
+
+        {% if error %}
+            <div class="message" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        {% if question and not error %}
+
+            <div class="results-heading">
+                Results for: <strong>{{ question }}</strong>
+            </div>
+
+            {% if results and columns %}
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                {% for column in columns %}
+                                    <th scope="col">
+                                        {{ column }}
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for row in results %}
+                                <tr>
+                                    {% for column in columns %}
+                                        <td>
+                                            {{ row.get(column, '') }}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row-count">
+                    {{ results|length }}
+                    {% if results|length == 1 %}
+                        row
+                    {% else %}
+                        rows
+                    {% endif %}
+                    returned
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+                    No matching records were found.
+                    Try a different search query.
+                </div>
+
+            {% endif %}
+
+        {% endif %}
+
+    </main>
+
+    <footer>
+        Oracle Search · Powered by Oracle Select AI
+    </footer>
+
+</body>
+</html>
