@@ -324,6 +324,25 @@ SELECT AI run prompt how many customers per country name;
 SELECT AI run prompt how many total orders were placed per year;
 ```
 
-# flask app for seach
+# flask app for search
 
 you can run the flask app included, adjust as required
+
+clone the repo and rename ```dotenv``` to ```.env``` 
+edit ```.env``` and modify accordingly
+
+install requirements
+
+```
+python3 -m venv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
+```
+
+then start the flask app
+
+```
+python3 app.py
+````
+
+open a browser and go to http://127.0.0.1:5000/ for the search app
