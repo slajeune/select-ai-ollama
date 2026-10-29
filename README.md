@@ -343,3 +343,8 @@ python3 app.py
 ````
 
 open a browser and go to http://127.0.0.1:5000/ for the search app
+
+a reel time video of an actual select ai call via the app and ollama pure CPU (no GPU)
+
+https://github.com/user-attachments/assets/6f0666e7-3909-4524-8ce3-0415da371043
+
